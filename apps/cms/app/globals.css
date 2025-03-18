@@ -7,143 +7,216 @@
   display: none;
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
+.schedule-planner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .schedule-planner-container {
+    flex-direction: row;
   }
 }
 
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
+/* Tours panel */
+.tours-panel {
+  width: 100%;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+@media (min-width: 1024px) {
+  .tours-panel {
+    width: 33.333333%;
+    flex-shrink: 0;
   }
 }
 
-@keyframes slideInUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+/* Schedule table container */
+.schedule-table-container {
+  width: 100%;
+  overflow: auto;
+}
+
+@media (min-width: 1024px) {
+  .schedule-table-container {
+    width: 66.666667%;
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* Schedule table */
+.schedule-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.875rem;
 }
 
-@keyframes pulse {
+/* Sticky header */
+.schedule-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--header-bg);
+}
+
+/* Sticky first column */
+.schedule-table .sticky-column {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  background-color: var(--cell-bg);
+}
+
+/* Header with sticky first column */
+.schedule-table .sticky-header-column {
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  background-color: var(--header-bg);
+}
+
+/* Set color variables for light/dark mode */
+:root {
+  --header-bg: #f9fafb;
+  --cell-bg: #ffffff;
+}
+
+.dark {
+  --header-bg: #1e293b;
+  --cell-bg: #0f172a;
+}
+
+/* Cell styling */
+.schedule-cell {
+  height: 100%;
+  width: 100%;
+  min-height: 100px;
+  padding: 0.5rem;
+  position: relative;
+  transition: background-color 0.15s ease;
+}
+
+/* Day off and leave styles */
+.day-off {
+  background-color: #f3f4f6;
+}
+
+.leave {
+  background-color: #fef3c7;
+}
+
+.dark .day-off {
+  background-color: #334155;
+}
+
+.dark .leave {
+  background-color: #78350f;
+  opacity: 0.3;
+}
+
+/* Drop target styling */
+.drop-target {
+  position: relative;
+}
+
+.drop-target::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid;
+  border-radius: 0.25rem;
+  pointer-events: none;
+}
+
+.drop-target.allowed::after {
+  border-color: #818cf8;
+}
+
+.drop-target.disallowed::after {
+  border-color: #f87171;
+}
+
+/* Success flash animation */
+.success-flash {
+  animation: flash-success 0.8s ease;
+}
+
+@keyframes flash-success {
   0%,
   100% {
-    opacity: 1;
+    background-color: var(--cell-bg);
   }
   50% {
-    opacity: 0.7;
+    background-color: #d1fae5;
   }
 }
 
-@keyframes bounce {
+.dark .success-flash {
+  animation: flash-success-dark 0.8s ease;
+}
+
+@keyframes flash-success-dark {
   0%,
   100% {
-    transform: translateY(0);
+    background-color: var(--cell-bg);
   }
   50% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes flash {
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-  }
-  25%,
-  75% {
+    background-color: #065f46;
     opacity: 0.5;
   }
 }
 
-/* Animation classes */
-.animate-slide-in-right {
-  animation: slideInRight 0.3s ease-out;
+/* Assigned tour roles */
+.assigned-role {
+  font-size: 0.75rem;
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.animate-slide-in-left {
-  animation: slideInLeft 0.3s ease-out;
+.dark .assigned-role {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: #a5b4fc;
 }
 
-.animate-slide-in-up {
-  animation: slideInUp 0.3s ease-out;
+/* Draggable role styling */
+.draggable-role {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  cursor: grab;
+  transition: background-color 0.15s ease;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+.draggable-role:hover {
+  background-color: #c7d2fe;
 }
 
-.animate-pulse {
-  animation: pulse 1.5s infinite;
+.draggable-role.assigned {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  cursor: default;
 }
 
-.animate-bounce {
-  animation: bounce 1s infinite;
+.dark .draggable-role {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: #a5b4fc;
 }
 
-.animate-flash {
-  animation: flash 1.5s;
+.dark .draggable-role:hover {
+  background-color: rgba(79, 70, 229, 0.3);
 }
 
-/* Apply animation to eligible cells during drag */
-.dragging-active .valid-drop-target {
-  animation: pulse 1.5s infinite;
-}
-
-/* Transitions */
-.transition-fast {
-  transition: all 0.15s ease-in-out;
-}
-
-.transition-medium {
-  transition: all 0.3s ease-in-out;
-}
-
-.transition-slow {
-  transition: all 0.5s ease-in-out;
-}
-
-/* Hover effects */
-.hover-scale {
-  transition: transform 0.15s ease-in-out;
-}
-
-.hover-scale:hover {
-  transform: scale(1.05);
-}
-
-/* Focus styles */
-.focus-outline {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  transition: outline-color 0.15s ease-in-out;
-}
-
-.focus-outline:focus-visible {
-  outline-color: rgba(79, 70, 229, 0.5);
+.dark .draggable-role.assigned {
+  background-color: #374151;
+  color: #9ca3af;
 }

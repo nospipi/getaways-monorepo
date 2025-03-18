@@ -1,3 +1,4 @@
-export default function SchedulePlannerPage() {
-  return <div>SCHEDULE PLANNER PAGE</div>
+const Page = async () => {
+  return <div>SCHEDULE PAGE</div>
 }
+export default Page
