@@ -1,0 +1,23 @@
+# connect to bash within a heroku repo (in root)
+-- heroku run bash 
+#show all files
+-- du 
+
+#Clearing cache 
+
+# 1. Install heroku-builds plugin
+-- heroku plugins:install @heroku-cli/heroku-builds
+# 2. Clear cache
+-- heroku builds:cache:purge
+
+
+# clean npm cache
+-- npm cache clean --force
+-- npm cache verify
+
+
+# When heroku build fails with message : 
+"can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync"
+
+It means we have deleted package-lock and npm installed directly.
+We need to run npm install again after package-lock has been created to sync all the changes

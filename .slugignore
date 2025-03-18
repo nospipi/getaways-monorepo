@@ -1,0 +1,41 @@
+# THIS IF FOR HEROKU DEPLOYMENT
+# Before running the build, we ignore all files and directories that are not needed in the monorepo
+
+# Ignore CMS (Deployed in Vercel)
+/apps/cms
+/node_modules
+
+
+# Ignore common development files
+.git
+.github
+.vscode
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Ignore test directories
+**/test
+**/tests
+**/spec
+**/coverage
+
+# Ignore test files
+**/*.test.*
+**/*.spec.*
+**/__tests__/**
+**/__mocks__/**
+**/jest.config.*
+**/vitest.config.*
+**/cypress/**
+**/e2e/**
+**/storybook/**
+
+# Ignore build caches
+.turbo
+.cache
+
+# Miscellaneous
+**/commands.txt
+**/README.md
+**/compose.yaml
