@@ -1,4 +1,4 @@
-import { model } from "mongoose";
+import { model, models } from "mongoose";
 
 //-----------------------------------------------------------------
 
@@ -33,57 +33,64 @@ import ticketsAvailabilitySchema from "./schemas/ticketsAvailabilitySchema.js";
 import availabilityToolVisitorSchema from "./schemas/availabilityToolVisitorSchema.js";
 //----------------------------------------------------------------------------
 
-const FileModel = model("file", fileSchema);
-const UserModel = model("user", userSchema);
-const VehicleModel = model("vehicle", vehicleSchema);
-const AnnouncementModel = model("announcement", announcementSchema);
-const TaskModel = model("task", taskSchema);
-const UserDayScheduleModel = model("user_day_schedule", userDayScheduleSchema);
-const BugReportModel = model("bug_report", bugReportSchema);
-const AppVersionModel = model("app_version", appVersionSchema);
-const GroupModel = model("group", groupSchema);
-const RoleModel = model("role", roleSchema);
-const RequestModel = model("request", requestSchema);
-const ProductsModel = model("products", productsSchema);
-const BookingModel = model("booking", bookingSchema);
-const TourGroupModel = model("tour_group", tourGroupSchema);
-const ChannelModel = model("channel", channelsSchema);
-const MeetingPointModel = model("meeting_point", meetingPointSchema);
-const NoteModel = model("note", noteSchema);
-const CalendarNoteModel = model("calendar_note", calendarNoteSchema);
-const NotificationModel = model("notification", notificationSchema);
-const PwaPushSubscriptionModel = model(
-  "pwa_push_subscription",
-  PwaPushSubscriptionSchema
-);
-const G4STrackingSessionCredentialsModel = model(
-  "g4s_tracking_session_credentials",
-  g4sTrackingSessionCredentialsSchema
-);
+const FileModel = models.file || model("file", fileSchema);
+const UserModel = models.user || model("user", userSchema);
+const VehicleModel = models.vehicle || model("vehicle", vehicleSchema);
+const AnnouncementModel =
+  models.announcement || model("announcement", announcementSchema);
+const TaskModel = models.task || model("task", taskSchema);
+const UserDayScheduleModel =
+  models.user_day_schedule || model("user_day_schedule", userDayScheduleSchema);
+const BugReportModel =
+  models.bug_report || model("bug_report", bugReportSchema);
+const AppVersionModel =
+  models.app_version || model("app_version", appVersionSchema);
+const GroupModel = models.group || model("group", groupSchema);
+const RoleModel = models.role || model("role", roleSchema);
+const RequestModel = models.request || model("request", requestSchema);
+const ProductsModel = models.products || model("products", productsSchema);
+const BookingModel = models.booking || model("booking", bookingSchema);
+const TourGroupModel =
+  models.tour_group || model("tour_group", tourGroupSchema);
+const ChannelModel = models.channel || model("channel", channelsSchema);
+const MeetingPointModel =
+  models.meeting_point || model("meeting_point", meetingPointSchema);
+const NoteModel = models.note || model("note", noteSchema);
+const CalendarNoteModel =
+  models.calendar_note || model("calendar_note", calendarNoteSchema);
+const NotificationModel =
+  models.notification || model("notification", notificationSchema);
+const PwaPushSubscriptionModel =
+  models.pwa_push_subscription ||
+  model("pwa_push_subscription", PwaPushSubscriptionSchema);
+const G4STrackingSessionCredentialsModel =
+  models.g4s_tracking_session_credentials ||
+  model(
+    "g4s_tracking_session_credentials",
+    g4sTrackingSessionCredentialsSchema
+  );
 
-const PortalUserSessionModel = model(
-  "portal_user_session",
-  portalUserSessionSchema
-);
-const PortalOpenSessionModel = model(
-  "portal_open_session",
-  portalOpenSessionSchema
-);
-const PortalSessionModel = model("portal_session", portalSessionSchema);
-const VehicleServiceLogEntryModel = model(
-  "vehicle_service_log_entry",
-  vehicleServiceLogEntrySchema
-);
-const BokunDataModel = model("bokun_data", bokunDataSchema);
-const MessageDraftModel = model("message_draft", messageDraftSchema);
-const TicketsAvailabilityModel = model(
-  "tickets_availability",
-  ticketsAvailabilitySchema
-);
-const AvailabilityToolVisitorModel = model(
-  "availability_tool_visitor",
-  availabilityToolVisitorSchema
-);
+const PortalUserSessionModel =
+  models.portal_user_session ||
+  model("portal_user_session", portalUserSessionSchema);
+const PortalOpenSessionModel =
+  models.portal_open_session ||
+  model("portal_open_session", portalOpenSessionSchema);
+const PortalSessionModel =
+  models.portal_session || model("portal_session", portalSessionSchema);
+const VehicleServiceLogEntryModel =
+  models.vehicle_service_log_entry ||
+  model("vehicle_service_log_entry", vehicleServiceLogEntrySchema);
+const BokunDataModel =
+  models.bokun_data || model("bokun_data", bokunDataSchema);
+const MessageDraftModel =
+  models.message_draft || model("message_draft", messageDraftSchema);
+const TicketsAvailabilityModel =
+  models.tickets_availability ||
+  model("tickets_availability", ticketsAvailabilitySchema);
+const AvailabilityToolVisitorModel =
+  models.availability_tool_visitor ||
+  model("availability_tool_visitor", availabilityToolVisitorSchema);
 
 //----------------------------------------------------------------------------
 

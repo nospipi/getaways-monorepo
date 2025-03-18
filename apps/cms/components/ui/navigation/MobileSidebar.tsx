@@ -25,34 +25,14 @@ import Link from "next/link"
 
 const navigation = [
   {
-    name: "Overview",
-    href: siteConfig.baseLinks.overview,
-    icon: RiLineChartLine,
-  },
-  { name: "Offers", href: siteConfig.baseLinks.overview, icon: RiCoupon2Line },
-  { name: "E-Sims", href: siteConfig.baseLinks.details, icon: RiSimCardLine },
-  // {
-  //   name: "Settings",
-  //   href: siteConfig.baseLinks.settings.general,
-  //   icon: RiSettings5Line,
-  // },
-] as const
-
-const shortcuts = [
-  {
-    name: "Organization",
-    href: "/settings/organization",
-    icon: RiBuildingLine,
+    name: "Day Planner",
+    href: siteConfig.baseLinks.dayPlanner,
+    icon: RiCoupon2Line,
   },
   {
-    name: "Users",
-    href: "/settings/users",
-    icon: RiGroupLine,
-  },
-  {
-    name: "Countries",
-    href: "/settings/countries",
-    icon: RiFlagLine,
+    name: "Schedule Planner",
+    href: siteConfig.baseLinks.schedulePlanner,
+    icon: RiSimCardLine,
   },
 ] as const
 
@@ -61,9 +41,6 @@ export default async function MobileSidebar() {
   const pathname = headerList.get("x-current-path")
 
   const isActive = (itemHref: string) => {
-    if (itemHref === siteConfig.baseLinks.settings.general) {
-      return pathname?.startsWith("/settings")
-    }
     return pathname === itemHref || pathname?.startsWith(itemHref)
   }
   return (
@@ -114,34 +91,6 @@ export default async function MobileSidebar() {
                   </li>
                 ))}
               </ul>
-              <div>
-                <span className="text-sm font-medium leading-6 text-gray-500 sm:text-xs">
-                  Settings
-                </span>
-                <ul aria-label="shortcuts" role="list" className="space-y-0.5">
-                  {shortcuts.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className={cx(
-                          pathname === item.href ||
-                            pathname?.includes(item.href)
-                            ? "text-indigo-600 dark:text-indigo-400"
-                            : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
-                          "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 font-medium transition hover:bg-gray-100 sm:text-sm hover:dark:bg-gray-900",
-                          focusRing,
-                        )}
-                      >
-                        <item.icon
-                          className="size-4 shrink-0"
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </nav>
           </DrawerBody>
         </DrawerContent>

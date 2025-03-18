@@ -5,6 +5,7 @@ import { siteConfig } from "./siteConfig"
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs"
 import { dark } from "@clerk/themes"
 import { ToastContainer } from "react-toastify"
+import { connectDB } from "@nospipi/getaways-mongo-db"
 import "./globals.css"
 
 const inter = Inter({
@@ -40,11 +41,13 @@ export const metadata: Metadata = {
 
 //---------------------------------------------------------------------------
 
-export default function RootLayout({
+const RootLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode
-}>) {
+}>) => {
+  await connectDB()
+
   return (
     <ClerkProvider
       appearance={{
@@ -70,3 +73,5 @@ export default function RootLayout({
     </ClerkProvider>
   )
 }
+
+export default RootLayout

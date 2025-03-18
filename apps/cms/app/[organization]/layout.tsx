@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/ui/navigation/Sidebar"
+import Sidebar from "@/components/ui/navigation/Sidebar"
 import { headers } from "next/headers"
 
 export default async function RootLayout({
