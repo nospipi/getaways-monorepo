@@ -1,9 +1,12 @@
 import { UserButton } from "@clerk/nextjs"
 import Link from "next/link"
+import { connectDB } from "@nospipi/getaways-mongo-db"
 
 //----------------------------------------------------------------------
 
-const Page = () => {
+const Page = async () => {
+  await connectDB()
+
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4 dark:bg-gray-900">
       <span>HOME</span>
@@ -12,6 +15,11 @@ const Page = () => {
           <Link href="/tests-page">
             <button className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
               Visit the tests page
+            </button>
+          </Link>
+          <Link href="/tests-page">
+            <button className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              Overview
             </button>
           </Link>
         </div>

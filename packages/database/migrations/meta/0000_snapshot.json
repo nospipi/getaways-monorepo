@@ -1,9 +1,86 @@
 {
-  "id": "4ed71559-ee40-49dd-ac30-db826406470f",
+  "id": "75f7fd5b-93ea-4069-93d6-64c947a9d281",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.organizations": {
+      "name": "organizations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "organizations_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "285500",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "uuid": {
+          "name": "uuid",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "logoUrl": {
+          "name": "logoUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "organizations_uuid_unique": {
+          "name": "organizations_uuid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "uuid"
+          ]
+        },
+        "organizations_slug_unique": {
+          "name": "organizations_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.users": {
       "name": "users",
       "schema": "",
@@ -32,6 +109,19 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "firstName": {
           "name": "firstName",
           "type": "varchar(255)",
@@ -54,76 +144,29 @@
             "type": "stored"
           }
         },
-        "mobile_log_status": {
-          "name": "mobile_log_status",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": false
-        },
-        "is_admin": {
-          "name": "is_admin",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "is_moderator": {
-          "name": "is_moderator",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "on_office_duty": {
-          "name": "on_office_duty",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "is_emergency_contact": {
-          "name": "is_emergency_contact",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "should_receive_announcements": {
-          "name": "should_receive_announcements",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "id_number": {
-          "name": "id_number",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "afm_number": {
-          "name": "afm_number",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "amka_number": {
-          "name": "amka_number",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "driver_license_number": {
-          "name": "driver_license_number",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "guide_reg_number": {
-          "name": "guide_reg_number",
-          "type": "varchar(20)",
+        "loggedToOrganizationId": {
+          "name": "loggedToOrganizationId",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "users_loggedToOrganizationId_organizations_id_fk": {
+          "name": "users_loggedToOrganizationId_organizations_id_fk",
+          "tableFrom": "users",
+          "tableTo": "organizations",
+          "columnsFrom": [
+            "loggedToOrganizationId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "users_uuid_unique": {
@@ -132,14 +175,123 @@
           "columns": [
             "uuid"
           ]
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        },
+        "users_firstName_unique": {
+          "name": "users_firstName_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "firstName"
+          ]
+        },
+        "users_lastName_unique": {
+          "name": "users_lastName_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "lastName"
+          ]
         }
       },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
+    },
+    "public.usersInOrganizations": {
+      "name": "usersInOrganizations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "usersInOrganizations_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "100000",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organizationId": {
+          "name": "organizationId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "role_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "usersInOrganizations_userId_users_id_fk": {
+          "name": "usersInOrganizations_userId_users_id_fk",
+          "tableFrom": "usersInOrganizations",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "usersInOrganizations_organizationId_organizations_id_fk": {
+          "name": "usersInOrganizations_organizationId_organizations_id_fk",
+          "tableFrom": "usersInOrganizations",
+          "tableTo": "organizations",
+          "columnsFrom": [
+            "organizationId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.role_type": {
+      "name": "role_type",
+      "schema": "public",
+      "values": [
+        "SYS_ADMIN",
+        "ORG_ADMIN",
+        "ORG_MODERATOR",
+        "ORG_VIEWER",
+        "ORG_CLIENT"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},

@@ -1,16 +1,20 @@
 import { seed, reset } from "drizzle-seed";
-import { db, users } from "./src/index";
+import { db, users, organizations, usersInOrganizations } from "./src/index";
 
 const main = async () => {
   try {
     console.log("Resetting database...");
     await reset(db, {
+      organizations,
       users,
+      usersInOrganizations,
     });
 
     console.log("Seeding database...");
     await seed(db, {
+      organizations,
       users,
+      usersInOrganizations,
     });
 
     console.log("Database reset and seed completed successfully!");

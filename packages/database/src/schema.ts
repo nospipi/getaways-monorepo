@@ -3,41 +3,96 @@
 import {
   pgTable,
   serial,
-  varchar,
+  timestamp,
   text,
-  boolean,
-  jsonb,
-  uniqueIndex,
-  uuid,
   integer,
+  pgEnum,
+  //index,
+  varchar,
+  uuid,
+  smallserial,
 } from "drizzle-orm/pg-core";
 import { relations, SQL, sql } from "drizzle-orm";
 
 //---------------------------------------------------------------------------------------------
 
+//ORGANIZATIONS
+export const organizations = pgTable("organizations", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity({ startWith: 285500 }),
+  uuid: uuid().defaultRandom().notNull().unique(),
+  createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+  name: text().notNull(),
+  slug: varchar({ length: 255 }).notNull().unique(),
+  logoUrl: text(),
+});
+
+export const organizationsRelations = relations(organizations, ({ many }) => ({
+  users: many(usersInOrganizations),
+  loggedInUsers: many(users, { relationName: "loggedToOrganization" }),
+}));
+
+//---------------------------------------------------------------------------------------------
+
+//USERS
+export const roleEnum = pgEnum("role_type", [
+  "SYS_ADMIN",
+  "ORG_ADMIN",
+  "ORG_MODERATOR",
+  "ORG_VIEWER",
+  "ORG_CLIENT",
+]);
+
 export const users = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity({ startWith: 675500 }),
   uuid: uuid().defaultRandom().notNull().unique(),
-  firstName: varchar({ length: 255 }).notNull(),
-  lastName: varchar({ length: 255 }).notNull(),
+  createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+  email: varchar({ length: 255 }).notNull().unique(),
+  firstName: varchar({ length: 255 }).notNull().unique(),
+  lastName: varchar({ length: 255 }).notNull().unique(),
   fullName: text()
     .generatedAlwaysAs(
       (): SQL => sql`${users.firstName} || ' ' || ${users.lastName}`
     )
     .notNull(),
-  mobileLogStatus: boolean("mobile_log_status").default(false),
-  isAdmin: boolean("is_admin"),
-  isModerator: boolean("is_moderator"),
-  onOfficeDuty: boolean("on_office_duty"),
-  isEmergencyContact: boolean("is_emergency_contact"),
-  shouldReceiveAnnouncements: boolean("should_receive_announcements"),
-  idNumber: varchar("id_number", { length: 20 }),
-  afmNumber: varchar("afm_number", { length: 20 }),
-  amkaNumber: varchar("amka_number", { length: 20 }),
-  driverLicenseNumber: varchar("driver_license_number", { length: 20 }),
-  guideRegNumber: varchar("guide_reg_number", { length: 20 }),
+  loggedToOrganizationId: integer().references(() => organizations.id, {
+    onDelete: "set null",
+  }),
 });
+
+export const usersRelations = relations(users, ({ one, many }) => ({
+  organizations: many(usersInOrganizations),
+  loggedToOrganization: one(organizations, {
+    fields: [users.loggedToOrganizationId],
+    references: [organizations.id],
+  }),
+}));
+
+export const usersInOrganizations = pgTable("usersInOrganizations", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity({ startWith: 100000 }),
+  userId: integer()
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  organizationId: integer()
+    .notNull()
+    .references(() => organizations.id, { onDelete: "cascade" }),
+  role: roleEnum().notNull(),
+});
+
+export const usersInOrganizationsRelations = relations(
+  usersInOrganizations,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [usersInOrganizations.userId],
+      references: [users.id],
+    }),
+    organization: one(organizations, {
+      fields: [usersInOrganizations.organizationId],
+      references: [organizations.id],
+    }),
+  })
+);
 
 //---------------------------------------------------------------------------------------------
 
+export type Organization = typeof organizations.$inferSelect;
 export type User = typeof users.$inferSelect;

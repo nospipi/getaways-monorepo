@@ -1,6 +1,6 @@
 "use server"
 
-import { Organization, User } from "@nospipi/database"
+import { Organization, User } from "@nospipi/getaways-db"
 import axios, { AxiosInstance, AxiosError } from "axios"
 import { isRedirectError } from "next/dist/client/components/redirect-error"
 import { redirect, permanentRedirect } from "next/navigation"

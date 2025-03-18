@@ -11,8 +11,10 @@ async function resetDatabase() {
     await db.transaction(async (tx) => {
       // First, drop all tables with proper dependencies
       await tx.execute(`
+        DROP TABLE IF EXISTS "usersInOrganizations" CASCADE;
         DROP TABLE IF EXISTS "users" CASCADE;
-
+        DROP TABLE IF EXISTS "organizations" CASCADE;
+        
         -- Drop any enum types
         DROP TYPE IF EXISTS role_type CASCADE;
       `);
